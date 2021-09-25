@@ -1,0 +1,48 @@
+Algo Environnement
+
+Tant que True :
+    SI (nb_action_robot%10 == 0) # choix arbitraire de 10 
+        Ajouter poussière
+    SI (nb_action_robot%10 == 0) #On peut changer le nombre pour que le taux d'apparition soit différent
+        Ajouter Diamant
+
+Algo Robot Mode Omniscient
+
+Tant que Poussière et diament :
+    calculer distance a toutes les poussières et diamant()
+
+    Si sur poussière et non Diamant :
+        aspirer()
+    Sinon Si sur poussière et Diamant :
+        rammasser()
+        aspirer()
+    Sinon Si sur Diamant :
+        rammasser()
+    Sinon 
+        ne rien faire
+
+    Actualiser l'état de la case
+
+    Si sur vide :
+        se déplacer vers la case non vide la plus proche
+    
+Algo Mode blind
+
+Tant que True :
+    Observer pièce :
+    Mise a jour état interne
+    Si sur poussière et non Diamant :
+        aspirer()
+    Sinon Si sur poussière et Diamant :
+        rammasser()
+        aspirer()
+    Sinon Si sur Diamant :
+        rammasser()
+    Sinon 
+        ne rien faire
+
+    Actualiser l'état de la case
+
+    Si sur vide :
+        se déplacer sur une case de préférence non visitée ou la moins visité parmis les possibles.
+
