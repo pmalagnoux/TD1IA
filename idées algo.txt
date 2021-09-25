@@ -44,5 +44,5 @@ Tant que True :
     Actualiser l'état de la case
 
     Si sur vide :
-        se déplacer sur une case de préférence non visitée ou la moins visité parmis les possibles.
+        se déplacer sur une case de préférence non visitée ou la moins visité parmis les possibles (dans un délai d'un certain nombre d'action).
 
