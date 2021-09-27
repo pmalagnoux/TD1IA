@@ -14,8 +14,6 @@ Tant que Poussière et diament :
 
     calculer distance a toutes les poussières et diamant()
     choisir le plus proche()
-    Tant que pas sur la case choisi:
-        se déplacer vers la case
 
     Si sur poussière et non Diamant :
         aspirer()
@@ -25,14 +23,11 @@ Tant que Poussière et diament :
     Sinon Si sur Diamant :
         rammasser()
     Sinon 
-        ne rien faire
-
-    Si sur vide :
         se déplacer vers la case non vide la plus proche
-    
+  
 Algo Mode blind
 
-Tant que True :
+Tant que True : # ou que la condition d'énergie est respecté
     Observer pièce :
     Mise a jour état interne
     Si sur poussière et non Diamant :
@@ -43,10 +38,10 @@ Tant que True :
     Sinon Si sur Diamant :
         rammasser()
     Sinon 
-        ne rien faire
-
-    Actualiser l'état de la case
-
-    Si sur vide :
         se déplacer sur une case de préférence non visitée ou la moins visité parmis les possibles (dans un délai d'un certain nombre d'action).
 
+Faire une grille dans le robot qui garde en mémoire le nombre de fois que le robot s'est déplacé sur une case.
+
+Dans le robot :
+    Il choisit parmis ses possibilités de déplacement et choisit la possilité avec le poid le plus petit.
+    Ajout restreindre le déplacemnt pour ne pas retourner d'ou il vient.

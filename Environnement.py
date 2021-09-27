@@ -74,6 +74,7 @@ class environmentGrid():
 #Créer une fonction pour ajouter des diamants et de la possière sur la grille
 #TODO get_élément() -> [[x,y,2],[x,y,2]]
 #TODO retirerElementPosition(self.x, self.y, numéro_élément)
+
 ##########  TEST    ###########################################################
 
 environment = environmentGrid()
