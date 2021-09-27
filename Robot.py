@@ -91,6 +91,15 @@ class Robot:
         self.energie += 1
         objetGrille.retirerElementPosition(self.x, self.y, 2) #TODO adapter au nom exacte de la fonction sur la grille
 
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+    
+    def getEnergie(self):
+        return self.energie
+
 """
 TEST
 """
