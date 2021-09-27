@@ -5,11 +5,17 @@ Tant que True :
         Ajouter poussière
     SI (nb_action_robot%10 == 0) #On peut changer le nombre pour que le taux d'apparition soit différent
         Ajouter Diamant
+    Attendre 1 sec
+    Afficher l'élément sur la grille
 
 Algo Robot Mode Omniscient
 
 Tant que Poussière et diament :
+
     calculer distance a toutes les poussières et diamant()
+    choisir le plus proche()
+    Tant que pas sur la case choisi:
+        se déplacer vers la case
 
     Si sur poussière et non Diamant :
         aspirer()
@@ -20,8 +26,6 @@ Tant que Poussière et diament :
         rammasser()
     Sinon 
         ne rien faire
-
-    Actualiser l'état de la case
 
     Si sur vide :
         se déplacer vers la case non vide la plus proche
