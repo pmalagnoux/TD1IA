@@ -2,6 +2,7 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 from matplotlib import colors
+import time
 
 
 class environmentGrid():
@@ -20,6 +21,14 @@ class environmentGrid():
         'pd': 3    # poussiere et diamant
         #'robot': 4
     }
+
+    # create discrete colormap
+    cmap = colors.ListedColormap(['white', 'grey', 'blue', 'red'])
+    bounds = [0, 1, 2, 3, 4]
+    norm = colors.BoundaryNorm(bounds, cmap.N)
+
+    fig, ax = plt.subplots()
+
 
     def __init__(self):
         pass
@@ -52,18 +61,30 @@ class environmentGrid():
     def display_grid(self):
         data = self.env_grid
 
-        # create discrete colormap
-        cmap = colors.ListedColormap(['white', 'grey', 'blue', 'red'])
-        bounds = [0, 1, 2, 3, 4]
-        norm = colors.BoundaryNorm(bounds, cmap.N)
-        fig, ax = plt.subplots()
-
         # Extent from 0 to 5 in x and 0 to 5 in y
-        ax.imshow(a, cmap=cmap, norm=norm,
+        self.ax.imshow(data, cmap=self.cmap, norm=self.norm,
                   extent=[0, self.x_dimension, 0, self.y_dimension])
 
         # draw gridlines
-        ax.grid(which='major', axis='both', linestyle='-', color='k',
+        self.ax.grid(which='major', axis='both', linestyle='-', color='k',
+                linewidth=1)
+        plt.xticks(np.arange(0, self.x_dimension + 1, 1))
+        plt.yticks(np.arange(0, self.y_dimension + 1, 1))
+
+        # Note the call to plt.pause(x), which both draws the new data and runs
+        # the GUI's event loop (allowing for mouse interaction).
+        plt.pause(1)
+
+
+    def display_grid2(self):
+        data = self.env_grid
+
+        # Extent from 0 to 5 in x and 0 to 5 in y
+        self.ax.imshow(data, cmap=self.cmap, norm=self.norm,
+                  extent=[0, self.x_dimension, 0, self.y_dimension])
+
+        # draw gridlines
+        self.ax.grid(which='major', axis='both', linestyle='-', color='k',
                 linewidth=1)
         plt.xticks(np.arange(0, self.x_dimension + 1, 1))
         plt.yticks(np.arange(0, self.y_dimension + 1, 1))
@@ -71,35 +92,19 @@ class environmentGrid():
 
 
 
-#Créer une fonction pour ajouter des diamants et de la possière sur la grille
-#TODO get_élément() -> [[x,y,2],[x,y,2]]
-#TODO retirerElementPosition(self.x, self.y, numéro_élément)
+#Creer une fonction pour ajouter des diamants et de la possiere sur la grille
+#TODO get_elem() -> [[x,y,2],[x,y,2]]
+#TODO retirerElementPosition(self.x, self.y, numelen
 
 ##########  TEST    ###########################################################
 
 environment = environmentGrid()
 
-a = environment.get_grid()
-print(a)
-
-a = environment.get_grid()
-print(a)
 
 environment.set_random_grid()
-#print(a)
-
 a = environment.get_grid()
 print(a)
-
-a = environment.get_grid()
-print(a)
-
-environment.set_random_grid()
-#print(a)
-
-a = environment.get_grid()
-print(a)
-
 print("-"*80)
-
 environment.display_grid()
+environment.set_random_grid()
+environment.display_grid2()
