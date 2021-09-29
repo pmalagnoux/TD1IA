@@ -2,7 +2,6 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 from matplotlib import colors
-import time
 
 
 class environmentGrid():
@@ -18,17 +17,16 @@ class environmentGrid():
         'rien': 0,
         'poussiere': 1,
         'diamant': 2,
-        'pd': 3    # poussiere et diamant
-        #'robot': 4
+        'pd': 3,    # poussiere et diamant
+        'robot': 4
     }
 
     # create discrete colormap
-    cmap = colors.ListedColormap(['white', 'grey', 'blue', 'red'])
-    bounds = [0, 1, 2, 3, 4]
+    cmap = colors.ListedColormap(['white', 'grey', 'blue', 'red', 'black'])
+    bounds = [0, 1, 2, 3, 4, 5]
     norm = colors.BoundaryNorm(bounds, cmap.N)
 
     fig, ax = plt.subplots()
-
 
     def __init__(self):
         pass
@@ -73,10 +71,13 @@ class environmentGrid():
 
         # Note the call to plt.pause(x), which both draws the new data and runs
         # the GUI's event loop (allowing for mouse interaction).
-        plt.pause(1)
+        plt.pause(2)
 
-
-    def display_grid2(self):
+    # THIS FUNCTION IS SIMILAR TO THE PREVIOUS ONE, BUT CALL IT ONLY AT THE
+    # END, BECAUSE OF THE PLOT SHOW AT THE END. OTHERWISE, IF YOU ONLY USE THE
+    # PREVIOUS ONE, THE GRID WILL DISAPPEAR AFTER X SECONDS. IF YOU USE ONLY
+    # THIS F UCTION, THE NEXT ITERATION THAT MODIFIES THE GRID WILL NOT SHOW.
+    def display_grid_last(self):
         data = self.env_grid
 
         # Extent from 0 to 5 in x and 0 to 5 in y
@@ -90,11 +91,122 @@ class environmentGrid():
         plt.yticks(np.arange(0, self.y_dimension + 1, 1))
         plt.show()
 
+    # Add diamond at a random place if there is nothing at this location. If
+    # there is a diamond already or the robot is there, add it in another
+    # place. If there is a dust already, add the diamond with it.
+    # robot_x: x cood of the robot. (int)
+    # robot_y: y coord of the robot. (int)
+    # element: element type number: rien, poussiere, diamant, pd. (int)
+    def add_element(self, robot_x, robot_y, element):
+        data = np.copy(self.env_grid)
+        random_diamond_x = robot_x
+        random_diamond_y = robot_y
+        no_same_elem = True
+
+        # Keep track of the element type, in case that the new one became a
+        # 'pd' from a 'poussiere' plus a 'diamant'.
+        new_elem_type = element
+
+        while (random_diamond_x == robot_x and random_diamond_y == robot_y) or\
+               no_same_elem:
+            random_diamond_x = random.randint(0, self.x_dimension - 1)
+            random_diamond_y = random.randint(0, self.y_dimension - 1)
+            data_at_new = data[random_diamond_x, random_diamond_y]
+
+            # If the random position is the same as the robot, no need more
+            # checks, just redo the random.
+            if random_diamond_x == robot_x and random_diamond_y == robot_y:
+                no_same_elem = False
+
+            # If the robot is at this position, do not add anything on it, just
+            # redo the random.
+            elif data_at_new == self.env_elements['robot']:
+                no_same_elem = False
+
+            # If there is already a 'pd' (poussiere et diamand), nothing more
+            # can be added, just redo the random.
+            elif data_at_new == self.env_elements['pd']:
+                no_same_elem = False
+
+            # If we want to add a dust poussiere...
+            elif element == self.env_elements['poussiere']:
+                # a dust poussiere can be added here.
+                if data_at_new == self.env_elements['rien']:
+                    no_same_elem = False
+                    break
+                # but there is already a poussiere here, redo the random.
+                elif data_at_new == self.env_elements['poussiere']:
+                    no_same_elem = True
+
+                # and there is a diamond here, the dust poussiere can be added
+                # here, but the element type becomes a 'pd' instead.
+                elif data_at_new == self.env_elements['diamant']:
+                    no_same_elem = False
+                    new_elem_type = self.env_elements['pd']
+                    break
+
+            # If we want to add a diamond...
+            elif element == self.env_elements['diamant']:
+                # a poussiere can be added here.
+                if data_at_new == self.env_elements['rien']:
+                    no_same_elem = False
+                    print("#"*80)
+                    print("ok ajout diamant")
+                    break
+                # but there is already a diamond here, redo the random.
+                elif data_at_new == self.env_elements['diamant']:
+                    no_same_elem = True
+
+                # and there is a dust poussiere here, the dust poussiere can be
+                # added here, but the element type becomes a 'pd' instead.
+                elif data_at_new == self.env_elements['poussiere']:
+                    no_same_elem = False
+                    new_elem_type = self.env_elements['pd']
+                    break
+
+        # Add the element in the environment.
+        self.env_grid[random_diamond_x, random_diamond_y] = new_elem_type
+
+    # Remove the element at the given position.
+    # x: x cood of the element to remove. (int)
+    # y: y coord of the element to remove. (int)
+    def remove_element(self, x, y, elem=None):
+        data = np.copy(self.env_grid)
+
+        # Check if the grid contains an element at the given position.
+        # Actually, only empty (rien) or not empty (poussiere, diamant, pd)
+        # state is important. Indeed, 'aspirer' and 'ramasser' act the same
+        # way.
+        data_at_new = data[x, y]
+        if data_at_new != self.env_elements['robot']:
+            self.env_grid[x, y] = self.env_elements['rien']
+
+    #
+    # 
+    # Use this function only to add the robot when it starts at beginning, not when it is moving. ?????????? A DISCUTER, car si deplacement, faut le faire avancer 1 a la fois...
+    # NOTE: QUAND LE ROBOT SE DEPLACE, IL DEVRAIT SE DEPLACER UNE CASE A LA FOIS.
+    # DONC IL FAUDRAIT LE FAIRE AFFICHER SUR LA GRILLE A CHAQAUE FOIS??? A GERER
+    # COTE ROBOT OU MAIN, PAS ICI, CAR SI UNE POUSSIERE ARRIVE ENTRE TEMPS, CEST AU
+    # ROBOT DE GERER
+    #
+    #
+
+    # Add the robot in the grid.
+    # robot_x: x cood of the robot. (int)
+    # robot_y: y coord of the robot. (int)
+    def add_robot(self, robot_x, robot_y):
+        self.env_grid[robot_x, robot_y] = self.env_elements['robot']
 
 
-#Creer une fonction pour ajouter des diamants et de la possiere sur la grille
-#TODO get_elem() -> [[x,y,2],[x,y,2]]
-#TODO retirerElementPosition(self.x, self.y, numelen
+
+
+
+
+#Creer une fonction pour ajouter des diamants et de la possiere sur la grille       FAIT
+#TODO get_elem() -> [[x,y,2],[x,y,2]]                                               FAIT    
+#TODO retirerElementPosition(self.x, self.y, numelen                                FAIT
+
+
 
 ##########  TEST    ###########################################################
 
@@ -105,6 +217,45 @@ environment.set_random_grid()
 a = environment.get_grid()
 print(a)
 print("-"*80)
+
 environment.display_grid()
-environment.set_random_grid()
-environment.display_grid2()
+environment.add_element(2, 3, environment.env_elements['poussiere'])
+print("&"*80)
+print(a)
+environment.display_grid()
+environment.add_element(2, 3, environment.env_elements['diamant'])
+print("&"*80)
+print(a)
+environment.display_grid()
+environment.add_element(2, 3, environment.env_elements['poussiere'])
+print("&"*80)
+print(a)
+environment.display_grid()
+environment.add_element(2, 3, environment.env_elements['diamant'])
+print("&"*80)
+print(a)
+environment.display_grid()
+environment.add_element(2, 3, environment.env_elements['poussiere'])
+print("&"*80)
+print(a)
+environment.display_grid()
+environment.add_element(2, 3, environment.env_elements['diamant'])
+print("&"*80)
+print(a)
+environment.display_grid()
+environment.add_element(2, 3, environment.env_elements['poussiere'])
+print("&"*80)
+print(a)
+print("%"*80)
+environment.remove_element(0, 0)
+environment.display_grid()
+environment.remove_element(0, 1)
+environment.display_grid()
+environment.remove_element(0, 2)
+environment.display_grid()
+environment.remove_element(1, 0)
+environment.display_grid()
+environment.remove_element(2, 0)
+
+environment.display_grid_last()
+print("##############finiiiiiiiiiiiiiiiiiiiiii")
