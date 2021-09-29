@@ -71,7 +71,8 @@ class Robot:
     """
     def checkPieceCourante(self, objetGrille):
         self.energie += 1
-        return objetGrille.getContenuPiece(self.x, self.y) #TODO adapter au nom exacte de la fonction sur la grille
+        #return objetGrille.getContenuPiece(self.x, self.y) #TODO adapter au nom exacte de la fonction sur la grille
+        return objetGrille.get_grid()
 
     """
     Fonction aspirer
@@ -80,7 +81,8 @@ class Robot:
     """
     def aspirer(self, objetGrille):
         self.energie += 1
-        objetGrille.retirerElementPosition(self.x, self.y, 1) #TODO adapter au nom exacte de la fonction sur la grille
+        #objetGrille.retirerElementPosition(self.x, self.y, 1) #TODO adapter au nom exacte de la fonction sur la grille
+        objetGrille.remove_element(self.x, self.y)
 
     """
     Fonction ramasser
@@ -89,7 +91,8 @@ class Robot:
     """
     def ramasser(self, objetGrille):
         self.energie += 1
-        objetGrille.retirerElementPosition(self.x, self.y, 2) #TODO adapter au nom exacte de la fonction sur la grille
+        #objetGrille.retirerElementPosition(self.x, self.y, 2) #TODO adapter au nom exacte de la fonction sur la grille
+        objetGrille.remove_element(self.x, self.y)
 
     def getX(self):
         return self.x
