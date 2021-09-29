@@ -79,20 +79,20 @@ class Robot:
     Retire la poussiere de la pièce de l'agent
     return void
     """
-    def aspirer(self, objetGrille):
+    def aspirer(self):
         self.energie += 1
         #objetGrille.retirerElementPosition(self.x, self.y, 1) #TODO adapter au nom exacte de la fonction sur la grille
-        objetGrille.remove_element(self.x, self.y)
+        #objetGrille.remove_element(self.x, self.y)
 
     """
     Fonction ramasser
     retire le bijou de la piece de l'agent
     return void
     """
-    def ramasser(self, objetGrille):
+    def ramasser(self):
         self.energie += 1
         #objetGrille.retirerElementPosition(self.x, self.y, 2) #TODO adapter au nom exacte de la fonction sur la grille
-        objetGrille.remove_element(self.x, self.y)
+        #objetGrille.remove_element(self.x, self.y)
 
     def getX(self):
         return self.x
@@ -103,10 +103,15 @@ class Robot:
     def getEnergie(self):
         return self.energie
 
+   
+
 """
 TEST
+"""
 """
 agent = Robot()
 agent.afficherPosition()
 agent.seDeplacer("GAUCHE")
 agent.afficherPosition()
+
+"""

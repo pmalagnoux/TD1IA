@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 
 
-class environmentGrid():
+class EnvironmentGrid():
 
     # Grid dimensions
     x_dimension = 5
@@ -29,7 +29,7 @@ class environmentGrid():
     fig, ax = plt.subplots()
 
     def __init__(self):
-        pass
+        self.set_random_grid() #Le fait direct dans l'initialisation au lieu dans le code en bas
 
     def set_random_grid(self):
         max_elements_per_line = 2
@@ -197,9 +197,15 @@ class environmentGrid():
     def add_robot(self, robot_x, robot_y):
         self.env_grid[robot_x, robot_y] = self.env_elements['robot']
 
+    #Paul
+    def getListPD(self):
+        lPD = []
+        for i in range(0,self.x_dimension):
+            for j in range(0,self.y_dimension):
+                if (self.env_grid[i,j] in [1,2,3]):
+                    lPD.append([i,j,self.env_grid[i,j]])
 
-
-
+        return lPD
 
 
 #Creer une fonction pour ajouter des diamants et de la possiere sur la grille       FAIT
@@ -209,11 +215,11 @@ class environmentGrid():
 
 
 ##########  TEST    ###########################################################
+"""
+environment = EnvironmentGrid()
 
-environment = environmentGrid()
 
-
-environment.set_random_grid()
+#environment.set_random_grid()
 a = environment.get_grid()
 print(a)
 print("-"*80)
@@ -259,3 +265,4 @@ environment.remove_element(2, 0)
 
 environment.display_grid_last()
 print("##############finiiiiiiiiiiiiiiiiiiiiii")
+"""
