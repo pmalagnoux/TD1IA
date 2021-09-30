@@ -30,7 +30,9 @@ class EnvironmentGrid():
 
     def __init__(self):
         self.set_random_grid()
-
+    
+    
+    #TODO initialise Timer a faire + fonction
     def set_random_grid(self):
         max_elements_per_line = 2
         env_grid = self.env_grid
@@ -186,7 +188,7 @@ class EnvironmentGrid():
 
     def getElementPos(self, x, y):
         return self.env_grid[x,y]
-##########  TEST    ###########################################################
+##########  TEST    ###########
 """
 environment = EnvironmentGrid()
 

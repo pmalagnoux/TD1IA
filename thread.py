@@ -23,7 +23,7 @@ class threadRobot (threading.Thread):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
-    def run(self):
+    def run(self,objetEnvironment):
         print ("Starting " + self.name)
         # Get lock to synchronize threads
         # threadLock.acquire()

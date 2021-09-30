@@ -13,7 +13,7 @@ class ComportementBlind:
         self.gridPoids = np.zeros((self.environment.x_dimension, self.environment.y_dimension))
         self.gridPoids[self.agent.x, self.agent.y] += 1
 
-    def detecter(self): #Fonction du capteur du robot
+    def detecter(self,): #Fonction du capteur du robot A déplacer dans le Robot
         return self.environment.getElementPos(self.agent.x, self.agent.y)
 
     def choixDep(self):
@@ -23,7 +23,6 @@ class ComportementBlind:
         choixMin = []
         for choix in choixPossible:
             poidsChoix = self.gridPoids[choixPossible[choix][0] + self.agent.x, choixPossible[choix][1] + self.agent.y]
-            print(poidsChoix)
             if  poidsChoix < minPoids:
                 minPoids = poidsChoix
                 choixMin = [choix]
@@ -43,7 +42,8 @@ class ComportementBlind:
                 'DROITE': [0,1] }
         return { possibilite : choix[possibilite] for possibilite in choix  if (choix[possibilite] + pos)[0] >= 0 and (choix[possibilite] + pos)[0] < self.environment.x_dimension and (choix[possibilite] + pos)[1] >= 0 and (choix[possibilite] + pos)[1] < self.environment.y_dimension}
 
-
+    def affichePoids(self):
+        pass
     def run(self):
         
         while (True): #condition à définir
@@ -62,7 +62,7 @@ class ComportementBlind:
                 self.gridPoids[self.agent.x, self.agent.y] += 1
             print(self.agent.x, self.agent.y)
             self.environment.display_grid()
-
+            print(self.gridPoids)
 
 ####TEST#####
 

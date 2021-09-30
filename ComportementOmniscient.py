@@ -1,7 +1,7 @@
 from Robot import Robot
 from Environnement import EnvironmentGrid
 import copy
-#from treelib import Node, Tree
+from treelib import Node, Tree
 
 class ComportementOmniscient:
 
@@ -115,7 +115,7 @@ class ComportementOmniscient:
             else:
                 return None
 
-    def run(self):
+    def run(self): #
         nextPD = self.NextPD()
         while (nextPD != []):
             nextDir = self.direction(nextPD)

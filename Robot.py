@@ -9,8 +9,8 @@ class Robot:
         self.x = randint(0, 4)
         self.y = randint(0, 4)
         self.energie = 0
-
-
+        self.nbAspire = 0
+        self.nbRammase = 0
     """
     Fonction seDeplacer
     Déplace l'agent d'une pièce dans la direction indiqué en paramètre
@@ -81,8 +81,7 @@ class Robot:
     """
     def aspirer(self):
         self.energie += 1
-        #objetGrille.retirerElementPosition(self.x, self.y, 1) #TODO adapter au nom exacte de la fonction sur la grille
-        #objetGrille.remove_element(self.x, self.y)
+        self.nbAspire += 1
 
     """
     Fonction ramasser
@@ -91,8 +90,7 @@ class Robot:
     """
     def ramasser(self):
         self.energie += 1
-        #objetGrille.retirerElementPosition(self.x, self.y, 2) #TODO adapter au nom exacte de la fonction sur la grille
-        #objetGrille.remove_element(self.x, self.y)
+        self.nbRammase += 1
 
     def getX(self):
         return self.x
