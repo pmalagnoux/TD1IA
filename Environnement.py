@@ -177,19 +177,18 @@ class EnvironmentGrid():
         # Actually, only empty (rien) or not empty (poussiere, diamant, pd)
         # state is important. Indeed, 'aspirer' and 'ramasser' act the same
         # way.
+        self.env_grid[x,y] -= elem
         data_at_new = data[x, y]
-        if data_at_new != self.env_elements['robot']:
-            self.env_grid[x, y] = self.env_elements['rien']
+        #if data_at_new != self.env_elements['robot']:
+        #    self.env_grid[x, y] = self.env_elements['rien']
 
-    #
-    # 
+
     # Use this function only to add the robot when it starts at beginning, not when it is moving. ?????????? A DISCUTER, car si deplacement, faut le faire avancer 1 a la fois...
     # NOTE: QUAND LE ROBOT SE DEPLACE, IL DEVRAIT SE DEPLACER UNE CASE A LA FOIS.
     # DONC IL FAUDRAIT LE FAIRE AFFICHER SUR LA GRILLE A CHAQAUE FOIS??? A GERER
     # COTE ROBOT OU MAIN, PAS ICI, CAR SI UNE POUSSIERE ARRIVE ENTRE TEMPS, CEST AU
     # ROBOT DE GERER
-    #
-    #
+
 
     # Add the robot in the grid.
     # robot_x: x cood of the robot. (int)

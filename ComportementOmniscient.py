@@ -67,14 +67,11 @@ class ComportementOmniscient:
                 print(nextPD) #TEST
                 if nextPD[2] == 1: #Poussière
                     self.agent.aspirer()
-                    self.environment.remove_element(nextPD[0],nextPD[1])
-                elif nextPD[2] == 2: #Diamant
+                    self.environment.remove_element(nextPD[0],nextPD[1], 1)
+                else: #Diamant ou (Diamant et Poussière)
                     self.agent.ramasser()
-                    self.environment.remove_element(nextPD[0],nextPD[1])
-                else: # Les 2
-                    self.agent.ramasser()
-                    self.agent.aspirer()
-                    self.environment.remove_element(nextPD[0],nextPD[1])
+                    self.environment.remove_element(nextPD[0],nextPD[1], 2)
+               
             nextPD = self.NextPD()
             print(self.agent.x,self.agent.y)
             #self.environment.update_pos_robot()
