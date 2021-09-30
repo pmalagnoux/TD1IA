@@ -22,6 +22,22 @@ class ComportementOmniscient:
                 minDist = distTemp
                 nextPD = self.lPD[i]
         return nextPD
+    
+    def list_NextPD_possible(self, x, y):
+        self.update_lPD()
+        minDist = self.environment.x_dimension*self.environment.y_dimension # Au moins on sait que c'est plus grand que le max
+        listPD = []
+        for i in range(0, len(self.lPD)):
+            distTemp = ComportementOmniscient.distanceManhattan([x,y], self.lPD[i][:2])
+            if(distTemp <= minDist):
+                minDist = distTemp
+        for i in range(0, len(self.lPD)):
+            distTemp = ComportementOmniscient.distanceManhattan([x,y], self.lPD[i][:2])
+            if(distTemp == minDist):
+                listPD.append(self.lPD[i])
+        return listPD #Possede tous les choix possible à la distance la plus proche du robot
+
+
     def distanceManhattan(pos1, pos2):
         return abs(pos1[0]-pos2[0]) + abs(pos1[1]-pos2[1])
 
@@ -61,6 +77,7 @@ class ComportementOmniscient:
                     self.environment.remove_element(nextPD[0],nextPD[1])
             nextPD = self.NextPD()
             print(self.agent.x,self.agent.y)
+            #self.environment.update_pos_robot()
             self.environment.display_grid()
 
 ####
