@@ -1,5 +1,6 @@
 ### Imports ###
-
+from Robot import Robot
+from Environnement import EnvironmentGrid
 
 ### Environnement ###
 def main_environnemet():
