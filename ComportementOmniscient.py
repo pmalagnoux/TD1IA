@@ -1,7 +1,7 @@
 from Robot import Robot
 from Environnement import EnvironmentGrid
 import copy
-from treelib import Node, Tree
+#from treelib import Node, Tree
 
 class ComportementOmniscient:
 
@@ -120,11 +120,13 @@ class ComportementOmniscient:
         while (nextPD != []):
             nextDir = self.direction(nextPD)
             if (nextDir is not None):
+                self.environment.remove_element(self.agent.x, self.agent.y, 4)
                 self.agent.seDeplacer(nextDir) # supprimer le robot de sa position et l'ajouter a la suivante.
+                self.environment.add_robot(self.agent.x, self.agent.y)
             else:
                 print("--------------")
                 print(nextPD) # TEST
-                if nextPD[2] == 1: # Poussière
+                if nextPD[2] == 5: # Poussière
                     self.agent.aspirer()
                     self.environment.remove_element(nextPD[0], nextPD[1], 1)
                 else: # Diamant ou (Diamant et Poussière)
