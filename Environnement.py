@@ -21,15 +21,15 @@ class EnvironmentGrid():
         'robot': 4
     }
 
-    # create discrete colormap
+    # Create discrete colormap
+    # white: rien, grey: poussiere, blue: diamant, red: pd, black: robot.
     cmap = colors.ListedColormap(['white', 'grey', 'blue', 'red', 'black'])
     bounds = [0, 1, 2, 3, 4, 5]
     norm = colors.BoundaryNorm(bounds, cmap.N)
-
     fig, ax = plt.subplots()
 
     def __init__(self):
-        self.set_random_grid() #Le fait direct dans l'initialisation au lieu dans le code en bas
+        self.set_random_grid()
 
     def set_random_grid(self):
         max_elements_per_line = 2
@@ -41,7 +41,8 @@ class EnvironmentGrid():
                 # 'static_chances_percentage' sets the percentage of chances
                 # that each value is randomly selected. You may hard code these
                 # percentages.
-                static_chances_percentage =  [0] * 70 + [1] * 10 + [2] * 10 + [3] * 10
+                static_chances_percentage = \
+                    [0] * 70 + [1] * 10 + [2] * 10 + [3] * 10
                 random_element = random.choice(static_chances_percentage)
                 if total_elements_per_line >= max_elements_per_line:
                     random_element = 0
@@ -61,11 +62,11 @@ class EnvironmentGrid():
 
         # Extent from 0 to 5 in x and 0 to 5 in y
         self.ax.imshow(data, cmap=self.cmap, norm=self.norm,
-                  extent=[0, self.x_dimension, 0, self.y_dimension])
+                       extent=[0, self.x_dimension, 0, self.y_dimension])
 
         # draw gridlines
         self.ax.grid(which='major', axis='both', linestyle='-', color='k',
-                linewidth=1)
+                     linewidth=1)
         plt.xticks(np.arange(0, self.x_dimension + 1, 1))
         plt.yticks(np.arange(0, self.y_dimension + 1, 1))
 
@@ -82,18 +83,18 @@ class EnvironmentGrid():
 
         # Extent from 0 to 5 in x and 0 to 5 in y
         self.ax.imshow(data, cmap=self.cmap, norm=self.norm,
-                  extent=[0, self.x_dimension, 0, self.y_dimension])
+                       extent=[0, self.x_dimension, 0, self.y_dimension])
 
         # draw gridlines
         self.ax.grid(which='major', axis='both', linestyle='-', color='k',
-                linewidth=1)
+                     linewidth=1)
         plt.xticks(np.arange(0, self.x_dimension + 1, 1))
         plt.yticks(np.arange(0, self.y_dimension + 1, 1))
         plt.show()
 
     # Add diamond at a random place if there is nothing at this location. If
-    # there is a diamond already or the robot is there, add it in another
-    # place. If there is a dust already, add the diamond with it.
+    # there is a diamond already, add it in another place. If there is a dust
+    # already, add the diamond with it.
     # robot_x: x cood of the robot. (int)
     # robot_y: y coord of the robot. (int)
     # element: element type number: rien, poussiere, diamant, pd. (int)
@@ -107,20 +108,14 @@ class EnvironmentGrid():
         # 'pd' from a 'poussiere' plus a 'diamant'.
         new_elem_type = element
 
-        while (random_diamond_x == robot_x and random_diamond_y == robot_y) or\
-               no_same_elem:
+        while no_same_elem:
             random_diamond_x = random.randint(0, self.x_dimension - 1)
             random_diamond_y = random.randint(0, self.y_dimension - 1)
             data_at_new = data[random_diamond_x, random_diamond_y]
 
-            # If the random position is the same as the robot, no need more
-            # checks, just redo the random.
-            if random_diamond_x == robot_x and random_diamond_y == robot_y:
-                no_same_elem = False
-
             # If the robot is at this position, do not add anything on it, just
             # redo the random.
-            elif data_at_new == self.env_elements['robot']:
+            if data_at_new == self.env_elements['robot']:
                 no_same_elem = False
 
             # If there is already a 'pd' (poussiere et diamand), nothing more
@@ -150,9 +145,8 @@ class EnvironmentGrid():
                 # a poussiere can be added here.
                 if data_at_new == self.env_elements['rien']:
                     no_same_elem = False
-                    print("#"*80)
-                    print("ok ajout diamant")
                     break
+
                 # but there is already a diamond here, redo the random.
                 elif data_at_new == self.env_elements['diamant']:
                     no_same_elem = True
@@ -170,47 +164,25 @@ class EnvironmentGrid():
     # Remove the element at the given position.
     # x: x cood of the element to remove. (int)
     # y: y coord of the element to remove. (int)
-    def remove_element(self, x, y, elem=None):
-        data = np.copy(self.env_grid)
-
+    def remove_element(self, x, y, elem=0):
         # Check if the grid contains an element at the given position.
-        # Actually, only empty (rien) or not empty (poussiere, diamant, pd)
-        # state is important. Indeed, 'aspirer' and 'ramasser' act the same
-        # way.
-        self.env_grid[x,y] -= elem
-        data_at_new = data[x, y]
-        #if data_at_new != self.env_elements['robot']:
-        #    self.env_grid[x, y] = self.env_elements['rien']
-
-
-    # Use this function only to add the robot when it starts at beginning, not when it is moving. ?????????? A DISCUTER, car si deplacement, faut le faire avancer 1 a la fois...
-    # NOTE: QUAND LE ROBOT SE DEPLACE, IL DEVRAIT SE DEPLACER UNE CASE A LA FOIS.
-    # DONC IL FAUDRAIT LE FAIRE AFFICHER SUR LA GRILLE A CHAQAUE FOIS??? A GERER
-    # COTE ROBOT OU MAIN, PAS ICI, CAR SI UNE POUSSIERE ARRIVE ENTRE TEMPS, CEST AU
-    # ROBOT DE GERER
-
+        self.env_grid[x, y] -= elem
 
     # Add the robot in the grid.
     # robot_x: x cood of the robot. (int)
     # robot_y: y coord of the robot. (int)
     def add_robot(self, robot_x, robot_y):
-        self.env_grid[robot_x, robot_y] = self.env_elements['robot']
+        element = self.env_grid[robot_x, robot_y]
+        self.env_grid[robot_x, robot_y] = element + self.env_elements['robot']
 
-    #Paul
+    # Paul
     def getListPD(self):
         lPD = []
-        for i in range(0,self.x_dimension):
-            for j in range(0,self.y_dimension):
-                if (self.env_grid[i,j] in [1,2,3]):
-                    lPD.append([i,j,self.env_grid[i,j]])
-
+        for i in range(0, self.x_dimension):
+            for j in range(0, self.y_dimension):
+                if (self.env_grid[i, j] in [1, 2, 3]):
+                    lPD.append([i, j, self.env_grid[i, j]])
         return lPD
-
-
-#Creer une fonction pour ajouter des diamants et de la possiere sur la grille       FAIT
-#TODO get_elem() -> [[x,y,2],[x,y,2]]                                               FAIT    
-#TODO retirerElementPosition(self.x, self.y, numelen                                FAIT
-
 
 
 ##########  TEST    ###########################################################
@@ -252,7 +224,8 @@ environment.add_element(2, 3, environment.env_elements['poussiere'])
 print("&"*80)
 print(a)
 print("%"*80)
-environment.remove_element(0, 0)
+
+environment.remove_element(0, 0, 1)
 environment.display_grid()
 environment.remove_element(0, 1)
 environment.display_grid()
@@ -261,6 +234,9 @@ environment.display_grid()
 environment.remove_element(1, 0)
 environment.display_grid()
 environment.remove_element(2, 0)
+
+environment.add_robot(0, 0)
+print(a)
 
 environment.display_grid_last()
 print("##############finiiiiiiiiiiiiiiiiiiiiii")
