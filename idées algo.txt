@@ -44,4 +44,4 @@ Faire une grille dans le robot qui garde en mémoire le nombre de fois que le ro
 
 Dans le robot :
     Il choisit parmis ses possibilités de déplacement et choisit la possilité avec le poid le plus petit.
-    Ajout restreindre le déplacemnt pour ne pas retourner d'ou il vient.
+    Ajout restreindre le déplacemnt pour ne pas retourner d'ou il vient. Pas fait

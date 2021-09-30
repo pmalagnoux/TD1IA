@@ -23,7 +23,7 @@ class EnvironmentGrid():
 
     # Create discrete colormap
     # white: rien, grey: poussiere, blue: diamant, red: pd, black: robot.
-    cmap = colors.ListedColormap(['white', 'grey', 'blue', 'red', colors.to_rgba('k', 0.3)])
+    cmap = colors.ListedColormap(['white', 'grey', 'blue', 'red', colors.to_rgba('g', 0.5)])
     bounds = [0, 1, 2, 3, 4, 5]
     norm = colors.BoundaryNorm(bounds, cmap.N)
     fig, ax = plt.subplots()
@@ -184,7 +184,8 @@ class EnvironmentGrid():
                     lPD.append([i, j, self.env_grid[i, j]])
         return lPD
 
-
+    def getElementPos(self, x, y):
+        return self.env_grid[x,y]
 ##########  TEST    ###########################################################
 """
 environment = EnvironmentGrid()
