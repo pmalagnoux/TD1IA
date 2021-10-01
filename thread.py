@@ -1,33 +1,37 @@
 import threading
 import time
+from ComportementOmniscient import ComportementOmniscient
 from Robot import Robot
 from Environnement import EnvironmentGrid
 
 
 class threadEnvironement (threading.Thread):
-    def __init__(self, threadID, name, objetEnvironment, objetRobot):
+    def __init__(self, threadID, name, objetEnvironment, objetRobot, timer):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
+        self.timer = timer
     def run(self):
         print ("Starting " + self.name)
         # Get lock to synchronize threads
         # threadLock.acquire()
-        objetEnvironement.lancerEnvironment(objetRobot) #TODO Fonction a faire
+        objetEnvironement.lancerEnvironmnent(objetRobot,self.timer) #TODO Fonction a faire
         time.sleep(1)
         # Free lock to release next thread
         # threadLock.release()
 
 class threadRobot (threading.Thread):
-    def __init__(self, threadID, name, objetEnvironment, objetRobot):
+    def __init__(self, threadID, name, objetEnvironment, objetRobot,timer):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
-    def run(self,objetEnvironment):
+        self.timer = timer
+        self.comportementOmniscient = ComportementOmniscient(objetEnvironment,objetRobot)
+    def run(self):
         print ("Starting " + self.name)
         # Get lock to synchronize threads
         # threadLock.acquire()
-        objetRobot.lancerRobot(objetEnvironment)  #TODO Fonction a faire
+        self.comportementOmniscient.run(timer)  #TODO Fonction a faire
         time.sleep(1)
         # Free lock to release next thread
         # threadLock.release()
@@ -41,10 +45,11 @@ class threadRobot (threading.Thread):
 threads = []
 
 # Create new threads
+timer = 10
 objetEnvironement = EnvironmentGrid()
 objetRobot = Robot()
-threadeEnv = threadEnvironement(1, "Thread-Evironement", objetEnvironement, objetRobot)
-threadRob = threadRobot(2, "Thread-robot", objetEnvironement, objetRobot)
+threadeEnv = threadEnvironement(1, "Thread-Evironement", objetEnvironement, objetRobot, timer)
+threadRob = threadRobot(2, "Thread-robot", objetEnvironement, objetRobot, timer)
 
 # thread1 = myThread(1, "Thread-1", 1)
 # thread2 = myThread(2, "Thread-2", 2)

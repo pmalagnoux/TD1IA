@@ -2,7 +2,7 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 from matplotlib import colors
-
+import time
 
 class EnvironmentGrid():
 
@@ -30,7 +30,7 @@ class EnvironmentGrid():
 
     def __init__(self):
         self.set_random_grid()
-    
+        
     
     #TODO initialise Timer a faire + fonction
     def set_random_grid(self):
@@ -74,8 +74,8 @@ class EnvironmentGrid():
 
         # Note the call to plt.pause(x), which both draws the new data and runs
         # the GUI's event loop (allowing for mouse interaction).
-        plt.pause(2)
-
+        #plt.pause(2)
+        time.sleep(2)
     # THIS FUNCTION IS SIMILAR TO THE PREVIOUS ONE, BUT CALL IT ONLY AT THE
     # END, BECAUSE OF THE PLOT SHOW AT THE END. OTHERWISE, IF YOU ONLY USE THE
     # PREVIOUS ONE, THE GRID WILL DISAPPEAR AFTER X SECONDS. IF YOU USE ONLY
@@ -188,6 +188,15 @@ class EnvironmentGrid():
 
     def getElementPos(self, x, y):
         return self.env_grid[x,y]
+
+
+    def lancerEnvironmnent(self,agent, timer):
+        t1 = time.time()
+        while(time.time()-t1 < timer):
+            time.sleep(random.random()*4 + 1)
+            self.add_element(agent.x,agent.y,random.randint(1,2))
+            print("oui")
+
 ##########  TEST    ###########
 """
 environment = EnvironmentGrid()

@@ -45,7 +45,6 @@ class ComportementBlind:
     def affichePoids(self):
         pass
     def run(self):
-        
         while (True): #condition à définir
             action = self.detecter()
             if (action == 5): #Poussiere

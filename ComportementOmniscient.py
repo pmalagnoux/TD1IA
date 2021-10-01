@@ -1,3 +1,4 @@
+import time
 from Robot import Robot
 from Environnement import EnvironmentGrid
 import copy
@@ -21,9 +22,10 @@ class ComportementOmniscient:
         'robot': 4
     }
 
-    def __init__(self):
-        self.agent = Robot()
-        self.environment = EnvironmentGrid() # soit ici ou on le met en entree
+    def __init__(self, environment, robot):
+        self.agent = robot
+        self.environment = environment
+        self.environment.add_robot(self.agent.x,self.agent.y)
         self.lPD = self.environment.getListPD()
 
     def update_lPD(self):
@@ -115,17 +117,22 @@ class ComportementOmniscient:
             else:
                 return None
 
-    def run(self): #
+    def run(self,timer):
         nextPD = self.NextPD()
-        while (nextPD != []):
+        t1 = time.time()
+        while(time.time()-t1 < timer):   
+            while (nextPD == []):
+                time.sleep(1)
+                nextPD = self.NextPD()
+
             nextDir = self.direction(nextPD)
             if (nextDir is not None):
                 self.environment.remove_element(self.agent.x, self.agent.y, 4)
                 self.agent.seDeplacer(nextDir) # supprimer le robot de sa position et l'ajouter a la suivante.
                 self.environment.add_robot(self.agent.x, self.agent.y)
             else:
-                print("--------------")
-                print(nextPD) # TEST
+                #print("--------------")
+                #print(nextPD) # TEST
                 if nextPD[2] == 5: # Poussière
                     self.agent.aspirer()
                     self.environment.remove_element(nextPD[0], nextPD[1], 1)
@@ -134,12 +141,15 @@ class ComportementOmniscient:
                     self.environment.remove_element(nextPD[0], nextPD[1], 2)
 
             nextPD = self.NextPD()
+            #print("*****************")
+            #print(self.agent.x, self.agent.y)
+            #self.environment.display_grid()
+            print()
             print("*****************")
-            print(self.agent.x, self.agent.y)
-            #self.environment.update_pos_robot()
-            self.environment.display_grid()
-
-
+            print()
+            print(self.environment.env_grid)
+            time.sleep(1)
+    
 ####
-test = ComportementOmniscient()
-test.run()
+#test = ComportementOmniscient()
+#test.run()
