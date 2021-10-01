@@ -195,7 +195,7 @@ class EnvironmentGrid():
         while(time.time()-t1 < timer):
             time.sleep(random.random()*4 + 1)
             self.add_element(agent.x,agent.y,random.randint(1,2))
-            print("oui")
+
 
 ##########  TEST    ###########
 """

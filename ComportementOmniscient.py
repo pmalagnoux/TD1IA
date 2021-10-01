@@ -141,9 +141,6 @@ class ComportementOmniscient:
                     self.environment.remove_element(nextPD[0], nextPD[1], 2)
 
             nextPD = self.NextPD()
-            #print("*****************")
-            #print(self.agent.x, self.agent.y)
-            #self.environment.display_grid()
             print()
             print("*****************")
             print()

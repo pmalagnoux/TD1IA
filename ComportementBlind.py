@@ -1,4 +1,5 @@
 
+import time
 from Robot import Robot
 from Environnement import EnvironmentGrid
 import numpy as np
@@ -7,13 +8,14 @@ import random
 class ComportementBlind:
 
 
-    def __init__(self):
-        self.agent = Robot()
-        self.environment = EnvironmentGrid() # soit ici ou on le met en entree
+    def __init__(self, environment, robot):
+        self.agent = robot
+        self.environment = environment
+        self.environment.add_robot(self.agent.x,self.agent.y)
         self.gridPoids = np.zeros((self.environment.x_dimension, self.environment.y_dimension))
         self.gridPoids[self.agent.x, self.agent.y] += 1
 
-    def detecter(self,): #Fonction du capteur du robot A déplacer dans le Robot
+    def detecter(self): #Fonction du capteur du robot A déplacer dans le Robot
         return self.environment.getElementPos(self.agent.x, self.agent.y)
 
     def choixDep(self):
@@ -44,8 +46,10 @@ class ComportementBlind:
 
     def affichePoids(self):
         pass
-    def run(self):
-        while (True): #condition à définir
+    def run(self, timer):
+        t1 = time.time()
+        while(time.time()-t1 < timer):
+         #condition à définir
             action = self.detecter()
             if (action == 5): #Poussiere
                 self.agent.aspirer()
@@ -59,12 +63,19 @@ class ComportementBlind:
                 self.agent.seDeplacer(nextDir)
                 self.environment.add_robot(self.agent.x, self.agent.y)
                 self.gridPoids[self.agent.x, self.agent.y] += 1
-            print(self.agent.x, self.agent.y)
-            self.environment.display_grid()
+            print()
+            print("************************")
+            print("*****Environnement******")
+            print()
+            print(self.environment.env_grid)
+            print()
+            print("*********Poids**********")
+            print()
             print(self.gridPoids)
+            time.sleep(1)
 
 ####TEST#####
 
-test = ComportementBlind()
-test.run()
+#test = ComportementBlind()
+#test.run()
 
