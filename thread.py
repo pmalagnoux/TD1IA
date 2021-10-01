@@ -45,31 +45,31 @@ class threadRobot (threading.Thread):
 
 #Exemple d'execution
 
+def executer():
+    # threadLock = threading.Lock()
+    threads = []
 
-# threadLock = threading.Lock()
-threads = []
+    # Create new threads
+    timer = 10
+    choix = bool(input("Choissiez le mode du robot:\n\t0: Omniscient\n\t1: Blind \n"))
+    objetEnvironement = EnvironmentGrid()
+    objetRobot = Robot()
+    threadeEnv = threadEnvironement(1, "Thread-Evironement", objetEnvironement, objetRobot, timer)
+    threadRob = threadRobot(2, "Thread-robot", objetEnvironement, objetRobot, timer, choix)
 
-# Create new threads
-timer = 10
-choix = bool(input("Choissiez le mode du robot\n\t0: Omniscient\n\t1: Blind \n"))
-objetEnvironement = EnvironmentGrid()
-objetRobot = Robot()
-threadeEnv = threadEnvironement(1, "Thread-Evironement", objetEnvironement, objetRobot, timer)
-threadRob = threadRobot(2, "Thread-robot", objetEnvironement, objetRobot, timer, choix)
+    # thread1 = myThread(1, "Thread-1", 1)
+    # thread2 = myThread(2, "Thread-2", 2)
 
-# thread1 = myThread(1, "Thread-1", 1)
-# thread2 = myThread(2, "Thread-2", 2)
+    # Start new Threads
+    # Strat execute la fonction run() du thread
+    threadeEnv.start()
+    threadRob.start()
 
-# Start new Threads
-# Strat execute la fonction run() du thread
-threadeEnv.start()
-threadRob.start()
+    # Add threads to thread list
+    threads.append(threadeEnv)
+    threads.append(threadRob)
 
-# Add threads to thread list
-threads.append(threadeEnv)
-threads.append(threadRob)
-
-# Wait for all threads to complete
-for t in threads:
-   t.join()
-print ("Exiting Main Thread")
+    # Wait for all threads to complete
+    for t in threads:
+        t.join()
+    print ("Exiting Main Thread")
