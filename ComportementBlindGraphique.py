@@ -59,7 +59,10 @@ class ComportementBlindGraphique:
                 self.agent.seDeplacer(nextDir)
                 self.environment.add_robot(self.agent.x, self.agent.y)
                 self.gridPoids[self.agent.x, self.agent.y] += 1
-                
+
             self.environment.display_grid() #Affichage
+            print()
+            print("*********Poids**********")
+            print()
             print(self.gridPoids)
 

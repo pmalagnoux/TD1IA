@@ -4,7 +4,7 @@ from ComportementBlind import ComportementBlind
 from ComportementOmniscient import ComportementOmniscient
 from Robot import Robot
 from Environnement import EnvironmentGrid
-
+import numpy as np
 
 class threadEnvironement (threading.Thread):
     def __init__(self, threadID, name, objetEnvironment, objetRobot, timer):
@@ -12,14 +12,11 @@ class threadEnvironement (threading.Thread):
         self.threadID = threadID
         self.name = name
         self.timer = timer
+        self.objetEnvironement = objetEnvironment
+        self.objetRobot = objetRobot
     def run(self):
         print ("Starting " + self.name)
-        # Get lock to synchronize threads
-        # threadLock.acquire()
-        objetEnvironement.lancerEnvironmnent(objetRobot,self.timer) #TODO Fonction a faire
-        time.sleep(1)
-        # Free lock to release next thread
-        # threadLock.release()
+        self.objetEnvironement.lancerEnvironmnent(self.objetRobot,self.timer)
 
 class threadRobot (threading.Thread):
     def __init__(self, threadID, name, objetEnvironment, objetRobot,timer, choix):
@@ -34,31 +31,19 @@ class threadRobot (threading.Thread):
         
     def run(self):
         print ("Starting " + self.name)
-        # Get lock to synchronize threads
-        # threadLock.acquire()
-        self.comportement.run(timer)  #TODO Fonction a faire
-        time.sleep(1)
-        # Free lock to release next thread
-        # threadLock.release()
+        self.comportement.run(self.timer)  
 
+def executer(timer = np.inf):
 
-
-#Exemple d'execution
-
-def executer():
-    # threadLock = threading.Lock()
     threads = []
 
     # Create new threads
-    timer = 10
+    
     choix = bool(input("Choissiez le mode du robot:\n\t0: Omniscient\n\t1: Blind \n"))
     objetEnvironement = EnvironmentGrid()
     objetRobot = Robot()
     threadeEnv = threadEnvironement(1, "Thread-Evironement", objetEnvironement, objetRobot, timer)
     threadRob = threadRobot(2, "Thread-robot", objetEnvironement, objetRobot, timer, choix)
-
-    # thread1 = myThread(1, "Thread-1", 1)
-    # thread2 = myThread(2, "Thread-2", 2)
 
     # Start new Threads
     # Strat execute la fonction run() du thread
