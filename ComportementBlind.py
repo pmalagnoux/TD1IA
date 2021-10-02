@@ -15,9 +15,16 @@ class ComportementBlind:
         self.gridPoids = np.zeros((self.environment.x_dimension, self.environment.y_dimension))
         self.gridPoids[self.agent.x, self.agent.y] += 1
 
+    """
+    Fonction "capteur" du robot
+    Retourne ce que le robot a détecter à sa case.
+    """
     def detecter(self): #Fonction du capteur du robot A déplacer dans le Robot
         return self.environment.getElementPos(self.agent.x, self.agent.y)
 
+    """
+    Retourne le choix de la direction par rapport aux critères de poids pour le déplacement.
+    """
     def choixDep(self):
         
         choixPossible = self.directionPossible(self.agent.x,self.agent.y)
@@ -35,7 +42,10 @@ class ComportementBlind:
         else:
             return choixMin[random.randint(0,len(choixMin)-1)] #Choisi aléatoirement parmi les solution de même poids
         
-
+    """
+    Retourne un dictionnaire comprenant les possibilités physiques de déplacement
+    en fonction d'une position donnée.
+    """
     def directionPossible(self, x, y):
         pos = np.array([x, y])
         choix = {'HAUT': [1,0],
@@ -44,8 +54,7 @@ class ComportementBlind:
                 'DROITE': [0,1] }
         return { possibilite : choix[possibilite] for possibilite in choix  if (choix[possibilite] + pos)[0] >= 0 and (choix[possibilite] + pos)[0] < self.environment.x_dimension and (choix[possibilite] + pos)[1] >= 0 and (choix[possibilite] + pos)[1] < self.environment.y_dimension}
 
-    def affichePoids(self):
-        pass
+
     def run(self, timer):
         t1 = time.time()
         while(time.time()-t1 < timer):
@@ -78,8 +87,5 @@ class ComportementBlind:
         print("Energie dépensée : ", self.agent.energie)
         print("Nombre de Poussières aspirées : ", self.agent.nbAspire)
         print("Nombre de Diamants rammassées : ", self.agent.nbRammase)
-####TEST#####
 
-#test = ComportementBlind()
-#test.run()
 

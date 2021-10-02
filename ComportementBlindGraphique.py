@@ -16,11 +16,18 @@ class ComportementBlindGraphique:
         self.gridPoids = np.zeros((self.environment.x_dimension, self.environment.y_dimension))
         self.gridPoids[self.agent.x, self.agent.y] += 1
         self.fig, self.ax = plt.subplots()
+    
+    """
+    Fonction "capteur" du robot
+    Retourne ce que le robot a détecter à sa case.
+    """
     def detecter(self,):
         return self.environment.getElementPos(self.agent.x, self.agent.y)
 
+    """
+    Retourne le choix de la direction par rapport aux critères de poids pour le déplacement.
+    """
     def choixDep(self):
-        
         choixPossible = self.directionPossible(self.agent.x,self.agent.y)
         minPoids = np.inf
         choixMin = []
@@ -36,7 +43,10 @@ class ComportementBlindGraphique:
         else:
             return choixMin[random.randint(0,len(choixMin)-1)] #Choisi aléatoirement parmi les solution de même poids
         
-
+    """
+    Retourne un dictionnaire comprenant les possibilités physiques de déplacement
+    en fonction d'une position donnée.
+    """
     def directionPossible(self, x, y):
         pos = np.array([x, y])
         choix = {'HAUT': [1,0],
@@ -45,6 +55,9 @@ class ComportementBlindGraphique:
                 'DROITE': [0,1] }
         return { possibilite : choix[possibilite] for possibilite in choix  if (choix[possibilite] + pos)[0] >= 0 and (choix[possibilite] + pos)[0] < self.environment.x_dimension and (choix[possibilite] + pos)[1] >= 0 and (choix[possibilite] + pos)[1] < self.environment.y_dimension}
 
+    """
+    Fonction qui réalise l'affichage du tableau des poids
+    """
     def affichePoids(self):
         self.ax.imshow(np.zeros((5,5)), extent=[0, self.environment.x_dimension, 0, self.environment.y_dimension])
         plt.cla()
@@ -59,8 +72,7 @@ class ComportementBlindGraphique:
         plt.pause(0.01)
         
     def run(self):
-        
-        while (self.agent.energie < 100):
+        while (self.agent.energie < 100): #Condition sur l'energie maximum que le robot peut depenser
             action = self.detecter()
             if (action == 5): #Poussiere
                 self.agent.aspirer()
@@ -78,12 +90,9 @@ class ComportementBlindGraphique:
             #Ajout de d'element dans l'environnement
             if random.random() < 0.15: # Choix du taux d'aparition à chaque action
                 self.environment.add_element(self.agent.x,self.agent.y,random.randint(1,2))
-
-            self.environment.display_grid() #Affichage
-            print()
-            print("*********Poids**********")
-            print()
-            print(self.gridPoids)
+            
+            #Affichage
+            self.environment.display_grid() 
             self.affichePoids()
             
         print()

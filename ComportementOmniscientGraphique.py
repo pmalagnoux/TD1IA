@@ -26,10 +26,16 @@ class ComportementOmniscientGraphique:
         self.agent = Robot()
         self.environment = EnvironmentGrid()
         self.lPD = self.environment.getListPD()
-
+    
+    """
+    Récupère la liste des poussière et des diamants.
+    """
     def update_lPD(self):
         self.lPD = self.environment.getListPD()
 
+    """
+    Retourne la position de l'élément le plus proche du robot.
+    """
     def NextPD(self):
         self.update_lPD()
         # Au moins on sait que c'est plus grand que le max
@@ -44,6 +50,11 @@ class ComportementOmniscientGraphique:
                 nextPD = self.lPD[i]
         return nextPD
 
+
+    """
+    Fonction pas utilisé qui aurait permis d'améliorer la prise de décison
+    Retourne, pour une position donnée, la liste de tous les éléments les plus proche du robot.
+    """
     def list_NextPD_possible(self, x, y, type=4):
         self.update_lPD()
         # Au moins on sait que c'est plus grand que le max
@@ -69,8 +80,12 @@ class ComportementOmniscientGraphique:
                 })
         # Possede tous les choix possible à la distance la plus proche du robot
         return listPD
-
-    def tree(self, robot_x, robot_y):   ######## A VERIFIER
+    
+    """
+    Pas terminé
+    Retourne un arbre afin d'obtenir les chemins possibles et choisir le meilleur pour le robot.
+    """
+    def tree(self, robot_x, robot_y):  
         root = {
             'x': robot_x,
             'y': robot_y,
@@ -99,9 +114,15 @@ class ComportementOmniscientGraphique:
             count2 += 1
         counter_id += 1
 
+    """
+    Fonction utilitaire qui retourne la distance de Manhattan entre deux positions.
+    """
     def distanceManhattan(pos1, pos2):
         return abs(pos1[0]-pos2[0]) + abs(pos1[1]-pos2[1])
 
+    """
+    Fonction retourne la direction que le robot doit prendre.
+    """
     def direction(self, nextPD):
         # Choix arbitraire de se deplacer d'abor en hauteur puis en largeur
         if(self.agent.x > nextPD[0]):
