@@ -24,7 +24,7 @@ class threadRobot (threading.Thread):
         self.threadID = threadID
         self.name = name
         self.timer = timer
-        if choix:
+        if choix == "1":
             self.comportement = ComportementBlind(objetEnvironment,objetRobot)
         else:
             self.comportement = ComportementOmniscient(objetEnvironment,objetRobot)
@@ -39,7 +39,7 @@ def executer(timer = np.inf):
 
     # Create new threads
     
-    choix = bool(input("Choissiez le mode du robot:\n\t0: Omniscient\n\t1: Blind \n"))
+    choix = input("Choissiez le mode du robot:\n\t0: Omniscient\n\t1: Blind \n")
     objetEnvironement = EnvironmentGrid()
     objetRobot = Robot()
     threadeEnv = threadEnvironement(1, "Thread-Evironement", objetEnvironement, objetRobot, timer)

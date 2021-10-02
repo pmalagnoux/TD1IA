@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 class ComportementBlindGraphique:
     
-    fig, ax = plt.subplots()
+    
 
 
     def __init__(self):
@@ -15,7 +15,7 @@ class ComportementBlindGraphique:
         self.environment = EnvironmentGrid()
         self.gridPoids = np.zeros((self.environment.x_dimension, self.environment.y_dimension))
         self.gridPoids[self.agent.x, self.agent.y] += 1
-
+        self.fig, self.ax = plt.subplots()
     def detecter(self,):
         return self.environment.getElementPos(self.agent.x, self.agent.y)
 
