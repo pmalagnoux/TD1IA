@@ -146,7 +146,11 @@ class ComportementOmniscient:
             print()
             print(self.environment.env_grid)
             time.sleep(1)
-    
+        print()
+        print("###### Conclusion ######")
+        print("Energie dépensée : ", self.agent.energie)
+        print("Nombre de Poussières aspirées : ", self.agent.nbAspire)
+        print("Nombre de Diamants rammassées : ", self.agent.nbRammase)
 ####
 #test = ComportementOmniscient()
 #test.run()

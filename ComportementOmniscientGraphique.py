@@ -1,3 +1,4 @@
+import random
 from Robot import Robot
 from Environnement import EnvironmentGrid
 import copy
@@ -131,5 +132,14 @@ class ComportementOmniscientGraphique:
                     self.agent.ramasser()
                     self.environment.remove_element(nextPD[0], nextPD[1], 2)
 
+            #Ajout de d'element dans l'environnement
+            if random.random() < 0.3: # Choix du taux d'aparition à chaque action
+                self.environment.add_element(self.agent.x,self.agent.y,random.randint(1,2))
+
             nextPD = self.NextPD()
             self.environment.display_grid() #Affichage
+        print()
+        print("###### Conclusion ######")
+        print("Energie dépensée : ", self.agent.energie)
+        print("Nombre de Poussières aspirées : ", self.agent.nbAspire)
+        print("Nombre de Diamants rammassées : ", self.agent.nbRammase)

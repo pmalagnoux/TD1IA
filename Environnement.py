@@ -32,7 +32,6 @@ class EnvironmentGrid():
         self.set_random_grid()
         
     
-    #TODO initialise Timer a faire + fonction
     def set_random_grid(self):
         max_elements_per_line = 2
         env_grid = self.env_grid
@@ -167,8 +166,10 @@ class EnvironmentGrid():
     # y: y coord of the element to remove. (int)
     def remove_element(self, x, y, elem=0):
         # Check if the grid contains an element at the given position.
-        self.env_grid[x, y] -= elem
-
+        if self.env_grid[x, y] - elem >= 0:
+            self.env_grid[x, y] -= elem
+        else:
+            self.env_grid[x, y] = 0
     # Add the robot in the grid.
     # robot_x: x cood of the robot. (int)
     # robot_y: y coord of the robot. (int)

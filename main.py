@@ -18,4 +18,4 @@ if choixFonctionnemnt == "0": # Si Affichage Graphique
     script.run()
 else:
     timer = int(input("Veuillez saisir le temps (en s) d'éxécution du Thread :"))
-    thread.executer()
+    thread.executer(timer)
