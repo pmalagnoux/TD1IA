@@ -4,6 +4,7 @@ from Environnement import EnvironmentGrid
 import copy
 from treelib import Node, Tree
 
+
 class ComportementOmniscient:
 
     tree_elem = {
@@ -25,9 +26,9 @@ class ComportementOmniscient:
     def __init__(self, environment, robot):
         self.agent = robot
         self.environment = environment
-        self.environment.add_robot(self.agent.x,self.agent.y)
+        self.environment.add_robot(self.agent.x, self.agent.y)
         self.lPD = self.environment.getListPD()
-    
+
     """
     Récupère la liste des poussière et des diamants.
     """
@@ -51,10 +52,10 @@ class ComportementOmniscient:
                 nextPD = self.lPD[i]
         return nextPD
 
-
     """
-    Fonction pas utilisé qui aurait permis d'améliorer la prise de décison
-    Retourne, pour une position donnée, la liste de tous les éléments les plus proche du robot.
+    Fonction pas utilise qui aurait permis d'améliorer la prise de decison
+    Retourne, pour une position donnée, la liste de tous les éléments les plus
+    proche du robot.
     """
     def list_NextPD_possible(self, x, y, type=4):
         self.update_lPD()
@@ -71,28 +72,27 @@ class ComportementOmniscient:
             distTemp = ComportementOmniscient.distanceManhattan(
                 [x, y], self.lPD[i][:2])
             if(distTemp == minDist):
-                #listPD.append(self.lPD[i])
+                # listPD.append(self.lPD[i])
                 listPD.append({
                     'x': self.lPD[i][0],
                     'y': self.lPD[i][1],
                     'type': self.lPD[i][2],
-                    'score': distTemp#,
-                    #'enfants': [],
+                    'score': distTemp
                 })
         # Possede tous les choix possible à la distance la plus proche du robot
         return listPD
-    
+
     """
     Pas terminé
-    Retourne un arbre afin d'obtenir les chemins possibles et choisir le meilleur pour le robot
+    Retourne un arbre afin d'obtenir les chemins possibles et choisir le
+    meilleur pour le robot
     """
     def tree(self, robot_x, robot_y): 
         root = {
             'x': robot_x,
             'y': robot_y,
             'type': 4,
-            'score': 0#,
-            #'enfants': [],
+            'score': 0
         }
         counter_id = 0
 
@@ -116,7 +116,8 @@ class ComportementOmniscient:
         counter_id += 1
 
     """
-    Fonction utilitaire qui retourne la distance de Manhattan entre deux positions.
+    Fonction utilitaire qui retourne la distance de Manhattan entre deux
+    positions.
     """
     def distanceManhattan(pos1, pos2):
         return abs(pos1[0]-pos2[0]) + abs(pos1[1]-pos2[1])
@@ -138,7 +139,7 @@ class ComportementOmniscient:
             else:
                 return None
 
-    def run(self,timer):
+    def run(self, timer):
         nextPD = self.NextPD()
         t1 = time.time()
         while(time.time()-t1 < timer):   
@@ -149,15 +150,14 @@ class ComportementOmniscient:
             nextDir = self.direction(nextPD)
             if (nextDir is not None):
                 self.environment.remove_element(self.agent.x, self.agent.y, 4)
-                self.agent.seDeplacer(nextDir) # supprimer le robot de sa position et l'ajouter a la suivante.
+                # supprimer le robot de sa position et l'ajouter a la suivante.
+                self.agent.seDeplacer(nextDir)
                 self.environment.add_robot(self.agent.x, self.agent.y)
             else:
-                #print("--------------")
-                #print(nextPD) # TEST
-                if nextPD[2] == 5: # Poussière
+                if nextPD[2] == 5:  # Poussiere
                     self.agent.aspirer()
                     self.environment.remove_element(nextPD[0], nextPD[1], 1)
-                else: # Diamant ou (Diamant et Poussière)
+                else:   # Diamant ou (Diamant et Poussière)
                     self.agent.ramasser()
                     self.environment.remove_element(nextPD[0], nextPD[1], 2)
 
@@ -172,4 +172,3 @@ class ComportementOmniscient:
         print("Energie dépensée : ", self.agent.energie)
         print("Nombre de Poussières aspirées : ", self.agent.nbAspire)
         print("Nombre de Diamants rammassées : ", self.agent.nbRammase)
-

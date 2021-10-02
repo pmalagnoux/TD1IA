@@ -7,10 +7,14 @@ from Robot import Robot
 from Environnement import EnvironmentGrid
 import thread
 
-choixFonctionnemnt = input("Choissiez le mode :\n\t0: Affichage graphique (pour visualiser le comportement)\n\t1: Thread (vrai comportement avec les trheads d'environnement et de robot distict) \n")
+choixFonctionnemnt = input(
+    "Choissiez le mode :\n\t0: Affichage graphique (pour visualiser le " +
+    "comportement)\n\t1: Thread (vrai comportement avec les trheads " +
+    "d'environnement et de robot distict) \n")
 print(choixFonctionnemnt)
-if choixFonctionnemnt == "0": # Si Affichage Graphique
-    choix = input("Choissiez le mode du robot:\n\t0: Omniscient\n\t1: Blind \n")
+if choixFonctionnemnt == "0":   # Si Affichage Graphique
+    choix = input(
+        "Choissiez le mode du robot:\n\t0: Omniscient\n\t1: Blind \n")
     if choix == "1":
         script = ComportementBlindGraphique()
     else:

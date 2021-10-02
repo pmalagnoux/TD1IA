@@ -1,5 +1,6 @@
 from random import *
 
+
 class Robot:
     """
     Constructeur de l'agent
@@ -19,37 +20,37 @@ class Robot:
     return 0 si l'agent n'as pas pu se déplacer (hors grille défini entre 0 et 4)
     """
     def seDeplacer(self, direction):
-        if(direction=="HAUT"):
-            if(self.x==4):
+        if(direction == "HAUT"):
+            if(self.x == 4 ):
                 print("mouvement impossible")
                 return 0
             else:
-                self.x+=1
-                self.energie+=1
+                self.x += 1
+                self.energie += 1
                 return 1
-        elif(direction=="BAS"):
-            if(self.x==0):
+        elif(direction == "BAS"):
+            if(self.x == 0):
                 print("mouvement impossible")
                 return 0
             else:
-                self.x-=1
-                self.energie+=1
+                self.x -= 1
+                self.energie += 1
                 return 1
-        elif(direction=="GAUCHE"):
-            if(self.y==0):
+        elif(direction == "GAUCHE"):
+            if(self.y == 0):
                 print("mouvement impossible")
                 return 0
             else:
-                self.y-=1
-                self.energie+=1
+                self.y -= 1
+                self.energie += 1
                 return 1
-        elif(direction=="DROITE"):
-            if(self.y==4):
+        elif(direction == "DROITE"):
+            if(self.y == 4):
                 print("mouvement impossible")
                 return 0
             else:
-                self.y+=1
-                self.energie+=1
+                self.y += 1
+                self.energie += 1
                 return 1
         else:
             print("direction inccorecte")
@@ -71,7 +72,8 @@ class Robot:
     """
     def checkPieceCourante(self, objetGrille):
         self.energie += 1
-        #return objetGrille.getContenuPiece(self.x, self.y) #TODO adapter au nom exacte de la fonction sur la grille
+        # return objetGrille.getContenuPiece(self.x, self.y)
+        # #TODO adapter au nom exacte de la fonction sur la grille
         return objetGrille.get_grid()
 
     """
@@ -97,11 +99,9 @@ class Robot:
 
     def getY(self):
         return self.y
-    
+
     def getEnergie(self):
         return self.energie
-
-   
 
 """
 TEST

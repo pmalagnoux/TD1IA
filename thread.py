@@ -6,6 +6,7 @@ from Robot import Robot
 from Environnement import EnvironmentGrid
 import numpy as np
 
+
 class threadEnvironement (threading.Thread):
     def __init__(self, threadID, name, objetEnvironment, objetRobot, timer):
         threading.Thread.__init__(self)
@@ -14,36 +15,44 @@ class threadEnvironement (threading.Thread):
         self.timer = timer
         self.objetEnvironement = objetEnvironment
         self.objetRobot = objetRobot
+
     def run(self):
-        print ("Starting " + self.name)
-        self.objetEnvironement.lancerEnvironmnent(self.objetRobot,self.timer)
+        print("Starting " + self.name)
+        self.objetEnvironement.lancerEnvironmnent(self.objetRobot, self.timer)
+
 
 class threadRobot (threading.Thread):
-    def __init__(self, threadID, name, objetEnvironment, objetRobot,timer, choix):
+    def __init__(self, threadID, name, objetEnvironment, objetRobot, timer,
+                 choix):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
         self.timer = timer
         if choix == "1":
-            self.comportement = ComportementBlind(objetEnvironment,objetRobot)
+            self.comportement = ComportementBlind(objetEnvironment, objetRobot)
         else:
-            self.comportement = ComportementOmniscient(objetEnvironment,objetRobot)
-        
+            self.comportement = ComportementOmniscient(
+                objetEnvironment, objetRobot)
+
     def run(self):
-        print ("Starting " + self.name)
+        print("Starting " + self.name)
         self.comportement.run(self.timer)  
 
-def executer(timer = np.inf):
+
+def executer(timer=np.inf):
 
     threads = []
 
     # Create new threads
-    
-    choix = input("Choissiez le mode du robot:\n\t0: Omniscient\n\t1: Blind \n")
+
+    choix = input(
+        "Choissiez le mode du robot:\n\t0: Omniscient\n\t1: Blind \n")
     objetEnvironement = EnvironmentGrid()
     objetRobot = Robot()
-    threadeEnv = threadEnvironement(1, "Thread-Evironement", objetEnvironement, objetRobot, timer)
-    threadRob = threadRobot(2, "Thread-robot", objetEnvironement, objetRobot, timer, choix)
+    threadeEnv = threadEnvironement(
+        1, "Thread-Evironement", objetEnvironement, objetRobot, timer)
+    threadRob = threadRobot(
+        2, "Thread-robot", objetEnvironement, objetRobot, timer, choix)
 
     # Start new Threads
     # Strat execute la fonction run() du thread
@@ -57,4 +66,4 @@ def executer(timer = np.inf):
     # Wait for all threads to complete
     for t in threads:
         t.join()
-    print ("Exiting Main Thread")
+    print("Exiting Main Thread")

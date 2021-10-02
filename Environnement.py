@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 import time
 
+
 class EnvironmentGrid():
 
     # Grid dimensions
@@ -23,15 +24,15 @@ class EnvironmentGrid():
 
     # Create discrete colormap
     # white: rien, grey: poussiere, blue: diamant, red: pd, black: robot.
-    cmap = colors.ListedColormap(['white', 'grey', 'blue', 'red', colors.to_rgba('g', 0.5)])
+    cmap = colors.ListedColormap(
+        ['white', 'grey', 'blue', 'red', colors.to_rgba('g', 0.5)])
     bounds = [0, 1, 2, 3, 4, 5]
     norm = colors.BoundaryNorm(bounds, cmap.N)
     fig, ax = plt.subplots()
 
     def __init__(self):
         self.set_random_grid()
-        
-    
+
     def set_random_grid(self):
         max_elements_per_line = 2
         env_grid = self.env_grid
@@ -74,6 +75,7 @@ class EnvironmentGrid():
         # Note the call to plt.pause(x), which both draws the new data and runs
         # the GUI's event loop (allowing for mouse interaction).
         plt.pause(1)
+
     # THIS FUNCTION IS SIMILAR TO THE PREVIOUS ONE, BUT CALL IT ONLY AT THE
     # END, BECAUSE OF THE PLOT SHOW AT THE END. OTHERWISE, IF YOU ONLY USE THE
     # PREVIOUS ONE, THE GRID WILL DISAPPEAR AFTER X SECONDS. IF YOU USE ONLY
@@ -170,6 +172,7 @@ class EnvironmentGrid():
             self.env_grid[x, y] -= elem
         else:
             self.env_grid[x, y] = 0
+
     # Add the robot in the grid.
     # robot_x: x cood of the robot. (int)
     # robot_y: y coord of the robot. (int)
@@ -187,69 +190,10 @@ class EnvironmentGrid():
         return lPD
 
     def getElementPos(self, x, y):
-        return self.env_grid[x,y]
+        return self.env_grid[x, y]
 
-
-    def lancerEnvironmnent(self,agent, timer):
+    def lancerEnvironmnent(self, agent, timer):
         t1 = time.time()
         while(time.time()-t1 < timer):
             time.sleep(random.random()*4 + 1)
-            self.add_element(agent.x,agent.y,random.randint(1,2))
-
-
-##########  TEST    ###########
-"""
-environment = EnvironmentGrid()
-
-
-#environment.set_random_grid()
-a = environment.get_grid()
-print(a)
-print("-"*80)
-
-environment.display_grid()
-environment.add_element(2, 3, environment.env_elements['poussiere'])
-print("&"*80)
-print(a)
-environment.display_grid()
-environment.add_element(2, 3, environment.env_elements['diamant'])
-print("&"*80)
-print(a)
-environment.display_grid()
-environment.add_element(2, 3, environment.env_elements['poussiere'])
-print("&"*80)
-print(a)
-environment.display_grid()
-environment.add_element(2, 3, environment.env_elements['diamant'])
-print("&"*80)
-print(a)
-environment.display_grid()
-environment.add_element(2, 3, environment.env_elements['poussiere'])
-print("&"*80)
-print(a)
-environment.display_grid()
-environment.add_element(2, 3, environment.env_elements['diamant'])
-print("&"*80)
-print(a)
-environment.display_grid()
-environment.add_element(2, 3, environment.env_elements['poussiere'])
-print("&"*80)
-print(a)
-print("%"*80)
-
-environment.remove_element(0, 0, 1)
-environment.display_grid()
-environment.remove_element(0, 1)
-environment.display_grid()
-environment.remove_element(0, 2)
-environment.display_grid()
-environment.remove_element(1, 0)
-environment.display_grid()
-environment.remove_element(2, 0)
-
-environment.add_robot(0, 0)
-print(a)
-
-environment.display_grid_last()
-print("##############finiiiiiiiiiiiiiiiiiiiiii")
-"""
+            self.add_element(agent.x, agent.y, random.randint(1, 2))
